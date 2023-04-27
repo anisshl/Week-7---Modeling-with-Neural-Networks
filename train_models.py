@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, classification_report
-from preprocessing import preprocess_text
+from preprocessing import preprocess_text, nlp_preprocess
 import tensorflow as tf
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
@@ -12,6 +12,8 @@ import pickle
 
 # Charger et prétraiter les données
 data = pd.read_csv('SMSSpamCollection.txt', sep='\t', header=None, names=['label', 'message'])
+data = nlp_preprocess(data)
+
 data['message'] = data['message'].apply(preprocess_text)
 
 # Créer un ensemble de données d'apprentissage et de test
