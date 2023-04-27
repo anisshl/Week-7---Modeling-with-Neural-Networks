@@ -86,7 +86,7 @@ def preprocess_text(text):
     preprocessed_tokens = []
 
     for token in doc:
-        # Vérifie si le token est un mot vide ou un signe de ponctuation
+        # Vérifie si le token est un stop word ou un signe de ponctuation
         if not (token.is_stop or token.is_punct):
             # Lemmatise le token et l'ajoute à la liste
             preprocessed_tokens.append(token.lemma_.lower())
