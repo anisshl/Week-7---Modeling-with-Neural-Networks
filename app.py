@@ -1,14 +1,12 @@
 import dash
 from dash import dcc, html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 from classify_messages import classify_message
 
 # Ajouter le support pour Bootstrap
-external_stylesheets = [
-    'https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'
-]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.layout = html.Div([
     html.H1("SMS Spam Detector", className='display-4 text-center py-4'),
@@ -31,6 +29,7 @@ app.layout = html.Div([
     html.Div([
         html.Button('Classify Message', id='classify_button', n_clicks=0, className='btn btn-primary w-100'),
     ], className='form-group'),
+    html.Br(),
     html.Div(id='output', className='form-group text-center py-3', style={'background-color': '#f8f9fa', 'border-radius': '5px'})
 ], className='container mt-4')
 
