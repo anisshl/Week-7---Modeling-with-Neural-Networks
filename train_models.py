@@ -16,8 +16,12 @@ data = nlp_preprocess(data)
 
 data['message'] = data['message'].apply(preprocess_text)
 
+# Vectoriser les messages
+vectorizer = TfidfVectorizer()
+data['message'] = vectorizer.fit_transform(data['message'])
+
 # Créer un ensemble de données d'apprentissage et de test
-X_train, X_test, y_train, y_test = train_test_split(data['message'], data['label'], test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(data.drop(columns=['label'],axis=1), data['label'], test_size=0.2, random_state=42)
 
 # Sauvegarder X_test dans un fichier CSV pour plus tard (Test app)
 X_test.to_csv('X_test.csv', index=False, header=True)
@@ -40,9 +44,15 @@ X_test.to_csv('X_test.csv', index=False, header=True)
 # Le score TF-IDF d'un terme dans un document est simplement le produit de sa fréquence de terme (TF) et de sa fréquence inverse de document (IDF).
 # Doc : https://datascientest.com/tf-idf-intelligence-artificielle
 #-----------------------------------------------
-vectorizer = TfidfVectorizer()
-X_train_vec = vectorizer.fit_transform(X_train)
-X_test_vec = vectorizer.transform(X_test)
+
+# improve : appliquer cette logique sur nos messages uniquement#
+#vectorizer = TfidfVectorizer()
+#X_train_vec = vectorizer.fit_transform(X_train)
+#X_test_vec = vectorizer.transform(X_test)
+
+#
+X_train_vec = X_train
+X_test_vec = X_test
 
 # Enregistrer le vectorizer
 with open('vectorizer.pkl', 'wb') as f:
