@@ -11,6 +11,23 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
+
+from spellchecker import SpellChecker
+
+def nlp_preprocess(df):
+
+    # Colonne indiquant la taille de la phrase
+    df['length'] = df.apply(lambda row: len(row['token']), axis=1)
+
+    # Colonne indiquant le nombre de fautes d'orthographes 
+    spell = SpellChecker()
+    df['misspell'] = df.apply(lambda row: len(spell.unknown(row['token'])), axis=1)
+
+    # Colonne indiquant le nombre de mots en majuscules
+    df['upper'] = df.apply(lambda row: np.array([x.isupper() for x in row['token']]).sum(), axis = 1) 
+    
+    return df
+ 
  
 # Opening JSON file
 with open('dictionnary_supp.json') as dictionnary_json_file:
@@ -19,7 +36,6 @@ with open('dictionnary_supp.json') as dictionnary_json_file:
 def expand_abbreviations(text):
     """
     Remplace les abréviations courantes par leurs formes complètes.
-
     :param text: str, texte contenant des abréviations
     :return: str, texte avec les abréviations étendues
     """
@@ -39,7 +55,6 @@ def expand_abbreviations(text):
 def expand_slang(text):
     """
     Remplace les mots d'argot et leurs variantes par des mots normalisés.
-
     :param text: str, texte contenant des mots d'argot
     :return: str, texte avec les mots d'argot étendus
     """
@@ -61,14 +76,10 @@ def preprocess_text(text):
     """
     Prend en entrée une chaîne de texte et effectue les opérations de prétraitement suivantes :
     - Tokenisation
-
     - Lemmatisation : Notez que la lemmatisation est généralement préférée au stemming, car elle produit des résultats plus précis en tenant compte du contexte linguistique.
     => Lemmatisation more infos : https://fr.wikipedia.org/wiki/Lemmatisation#:~:text=La%20lemmatisation%20d%C3%A9signe%20un%20traitement,index%20ou%20de%20son%20analyse.
-
     - Suppression des mots vides
-
     - Suppression de la ponctuation
-
     :param text: str, texte à prétraiter
     :return: str, texte prétraité
     """
