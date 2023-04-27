@@ -1,7 +1,8 @@
-joblib==1.2.0
+dash==2.9.3
 nltk==3.8.1
 numpy==1.23.5
 pandas==2.0.1
 scikit_learn==1.2.2
+spacy==3.5.2
 tensorflow==2.12.0
 tensorflow_intel==2.12.0
