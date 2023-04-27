@@ -11,11 +11,15 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
+import nltk
 
 from spellchecker import SpellChecker
 
 def nlp_preprocess(df):
 
+    # Colonne de listes de token
+    df['token'] = df['message'].apply(nltk.word_tokenize)
+    
     # Colonne indiquant la taille de la phrase
     df['length'] = df.apply(lambda row: len(row['token']), axis=1)
 
@@ -25,6 +29,8 @@ def nlp_preprocess(df):
 
     # Colonne indiquant le nombre de mots en majuscules
     df['upper'] = df.apply(lambda row: np.array([x.isupper() for x in row['token']]).sum(), axis = 1) 
+    
+    df = df.drop(['token'], axis = 1)
     
     return df
  
