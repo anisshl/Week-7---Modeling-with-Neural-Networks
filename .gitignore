@@ -1,0 +1,52 @@
+# Fichiers et répertoires générés automatiquement
+*/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+*.pyzw
+*.egg-info/
+dist/pip install dash
+
+build/
+*.egg
+*.egg-info
+pip-log.txt
+
+# Fichiers de configuration
+*.env
+*.ini
+*.log
+*.cfg
+*.conf
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+ENV.bak/
+.venv/
+.ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+.ipynb_checkpoints/*
+
+# Fichiers de sauvegarde
+*.bak
+*.swp
+*~
+
+# Fichiers de compilation
+*.pyc
+*.pyo
+*.so
+*.bak
+*.swp
+*.egg-info/
+*.egg
+*.eggs/
+*.egg-info
+dist/
+build/
