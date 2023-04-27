@@ -11,7 +11,9 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
- 
+
+from spellchecker import SpellChecker
+
 def nlp_preprocess(df):
 
     # Colonne indiquant la taille de la phrase
