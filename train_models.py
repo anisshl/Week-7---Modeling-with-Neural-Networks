@@ -128,20 +128,20 @@ def create_model(neurons=64, hidden_layers=1, activation='relu', optimizer='adam
 
 # Define the grid search parameters
 param_grid = {
-    'model__neurons': [32,64,128],
-    'model__hidden_layers': [1, 2, 3],
-    'model__activation': ['relu','tanh', 'sigmoid'],
+    'model__neurons': [32,64],
+    'model__hidden_layers': [2, 3],
+    'model__activation': ['relu','tanh'],
     'model__optimizer': ['adam','rmsprop'],
-    'model__learning_rate': [0.001, 0.01, 0.1],
+    'model__learning_rate': [0.01, 0.1],
     # 'model__momentum': [0.0, 0.2, 0.4, 0.6, 0.8, 0.9],
 }
 
-model_tensorflow = KerasClassifier(model=create_model, epochs=10, batch_size=32, verbose=False)
+model_tensorflow = KerasClassifier(model=create_model, epochs=10, batch_size=32, verbose=2)
 
 # Create a custom "scorer" object for the AUC-ROC
 auc_roc_scorer = make_scorer(roc_auc_score, greater_is_better=True, needs_proba=True)
 
-grid = GridSearchCV(estimator=model_tensorflow, param_grid=param_grid, scoring=auc_roc_scorer, n_jobs=1, cv=5, verbose=0)
+grid = GridSearchCV(estimator=model_tensorflow, param_grid=param_grid, scoring=auc_roc_scorer, n_jobs=1, cv=3, verbose=2)
 
 y_train_binary = (y_train == 'spam').astype(int)
 y_test_binary = (y_test == 'spam').astype(int)
@@ -157,6 +157,15 @@ print(type(best_model))
 # Save the TensorFlow/Keras model
 save_model(best_model.model_, 'tensorflow_best_model.h5')
 # best_model.model.save('tensorflow_best_model.h5')
+
+# Extraire les meilleurs paramètres
+best_params = grid_result.best_params_
+
+print("Best parameters:", best_params)
+
+# Sauvegarder les meilleurs paramètres
+with open('tensorflow_best_model_best_params.pkl', 'wb') as f:
+    pickle.dump(best_params, f)
 
 # Evaluate the model
 # y_pred_tensorflow = (best_model.model.predict(X_test_vec.toarray()) > 0.5).astype(int).flatten() # avec from keras.wrappers.scikit_learn import KerasClassifier

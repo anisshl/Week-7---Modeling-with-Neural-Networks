@@ -3,6 +3,8 @@ from preprocessing import preprocess_text
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tensorflow.keras.models import load_model
 import numpy as np
+import pydot
+from tensorflow.keras.utils import plot_model
 
 def classify_message(message, model_version):
     # Charger le modèle
@@ -23,6 +25,30 @@ def classify_message(message, model_version):
     # Charger le vectorizer
     with open('vectorizer.pkl', 'rb') as f:
         vectorizer = pickle.load(f)
+
+
+    # # Afficher les paramètres et leurs valeurs
+    # if 'scikit-learn' in model_version:
+    #     print("Paramètres du modèle et leurs valeurs:")
+    #     for param, value in model.get_params().items():
+    #         print(f"{param}: {value}")
+    # elif model_version == 'tensorflow':
+    #     print("Paramètres du modèle et leurs valeurs:")
+    #     # for i, layer in enumerate(model.layers):
+    #     #     print(f"Layer {i}: {layer}")
+    #     #     for j, weight in enumerate(layer.get_weights()):
+    #     #         print(f"  Weight {j}: {weight}")
+
+    #     # Charger les meilleurs paramètres
+    #     with open('best_params.pkl', 'rb') as f:
+    #         best_params = pickle.load(f)
+
+    #     print("Best parameters:", best_params)
+
+    #     # Visualiser le modèle
+    #     plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
+    # else:
+    #     print()
 
     # Prétraiter le message
     preprocessed_message = preprocess_text(message)
@@ -63,3 +89,4 @@ def classify_message(message, model_version):
     else:
         return 'Inconnue', prediction_proba
 
+classify_message('test', 'tensorflow')
