@@ -12,21 +12,23 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
+import numpy as np
+
 from spellchecker import SpellChecker
 
-def nlp_preprocess(df):
+# def nlp_preprocess(df):
 
-    # Colonne indiquant la taille de la phrase
-    df['length'] = df.apply(lambda row: len(row['token']), axis=1)
+#     # Colonne indiquant la taille de la phrase
+#     df['length'] = df.apply(lambda row: len(row['token']), axis=1)
 
-    # Colonne indiquant le nombre de fautes d'orthographes 
-    spell = SpellChecker()
-    df['misspell'] = df.apply(lambda row: len(spell.unknown(row['token'])), axis=1)
+#     # Colonne indiquant le nombre de fautes d'orthographes 
+#     spell = SpellChecker()
+#     df['misspell'] = df.apply(lambda row: len(spell.unknown(row['token'])), axis=1)
 
-    # Colonne indiquant le nombre de mots en majuscules
-    df['upper'] = df.apply(lambda row: np.array([x.isupper() for x in row['token']]).sum(), axis = 1) 
+#     # Colonne indiquant le nombre de mots en majuscules
+#     df['upper'] = df.apply(lambda row: np.array([x.isupper() for x in row['token']]).sum(), axis = 1) 
     
-    return df
+#     return df
  
  
 # Opening JSON file
